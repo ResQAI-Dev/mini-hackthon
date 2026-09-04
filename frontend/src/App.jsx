@@ -1,25 +1,26 @@
-import { useState } from "react";
-import RiskPrediction from "./components/prediction/RiskPrediction";
+import { Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import DashboardPage from "./pages/DashboardPage";
+import PredictionPage from "./pages/PredictionPage";
 import ReportingPage from "./pages/ReportingPage";
+import AIAssistantPage from "./pages/AIAssistantPage";
+import SafetyInfoPage from "./pages/SafetyInfoPage";
 import "./App.css";
 
 function App() {
-  const [page, setPage] = useState("risk");
-
   return (
     <div className="app">
-      <nav>
-        <button onClick={() => setPage("risk")}>
-          Risk Prediction
-        </button>
+      <Navbar />
 
-        <button onClick={() => setPage("reporting")}>
-          Disaster Reporting
-        </button>
-      </nav>
-
-      {page === "risk" && <RiskPrediction />}
-      {page === "reporting" && <ReportingPage />}
+      <main>
+        <Routes>
+          <Route path="/" element={<DashboardPage />} />
+          <Route path="/prediction" element={<PredictionPage />} />
+          <Route path="/reporting" element={<ReportingPage />} />
+          <Route path="/ai-assistant" element={<AIAssistantPage />} />
+          <Route path="/safety-info" element={<SafetyInfoPage />} />
+        </Routes>
+      </main>
     </div>
   );
 }

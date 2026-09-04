@@ -21,4 +21,6 @@ backend/**/__pycache__/
 
 # OS
 .DS_Store
-Thumbs.db
+Thumbs.dbbackend/uvicorn-*.log
+backend/server-error.txt
+uvicorn-*.log

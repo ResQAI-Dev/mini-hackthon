@@ -1,0 +1,98 @@
+.dashboard-page {
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 36px 0 60px;
+}
+
+.dashboard-hero {
+  padding: 42px;
+  border-radius: 22px;
+  background: linear-gradient(135deg, #102a43 0%, #1769aa 100%);
+  color: white;
+  box-shadow: 0 16px 40px rgba(16, 42, 67, 0.18);
+  margin-bottom: 24px;
+}
+
+.hero-badge {
+  display: inline-block;
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+}
+
+.dashboard-hero h1 {
+  margin: 14px 0 10px;
+  font-size: clamp(32px, 5vw, 52px);
+  letter-spacing: -1.5px;
+}
+
+.dashboard-hero p {
+  max-width: 680px;
+  margin: 0;
+  line-height: 1.7;
+  font-size: 16px;
+  opacity: 0.9;
+}
+
+.quick-actions {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 30px;
+}
+
+.quick-actions button {
+  min-height: 120px;
+  padding: 20px;
+  text-align: left;
+  background: white;
+  color: #172033;
+  border: 1px solid #e5eaf0;
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(15, 23, 42, 0.06);
+  transition: 0.2s ease;
+}
+
+.quick-actions button:hover {
+  transform: translateY(-3px);
+  border-color: #1769aa;
+  background: #fafdff;
+}
+
+.quick-actions strong {
+  display: block;
+  margin-bottom: 9px;
+  font-size: 16px;
+  color: #102a43;
+}
+
+.quick-actions span {
+  display: block;
+  color: #667085;
+  font-size: 13px;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+@media (max-width: 900px) {
+  .quick-actions {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .dashboard-page {
+    width: min(100% - 20px, 600px);
+  }
+
+  .dashboard-hero {
+    padding: 28px 22px;
+  }
+
+  .quick-actions {
+    grid-template-columns: 1fr;
+  }
+}
