@@ -58,7 +58,7 @@ def get_rainfall(district: str):
 
         return {
             "district": district,
-            "rainfall": round(float(rainfall), 1),
+            "rainfall": round(float(rainfall)),
             "unit": "mm",
             "source": "Open-Meteo",
         }
@@ -68,3 +68,4 @@ def get_rainfall(district: str):
             status_code=503,
             detail="Unable to retrieve automatic rainfall data",
         )
+
