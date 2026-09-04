@@ -5,24 +5,19 @@
   color: #172033;
 }
 
-/* =========================
-   HERO
-========================= */
-
 .ai-hero {
   margin-bottom: 28px;
 }
 
 .ai-hero .brand-badge {
   display: inline-flex;
-  align-items: center;
   padding: 7px 13px;
   border-radius: 999px;
   background: #e8f7f1;
   color: #087653;
   font-size: 12px;
   font-weight: 800;
-  letter-spacing: 0.8px;
+  letter-spacing: .8px;
   text-transform: uppercase;
 }
 
@@ -43,34 +38,18 @@
   line-height: 1.65;
 }
 
-/* =========================
-   MAIN CARD
-========================= */
-
 .ai-main-card {
   width: 100%;
-  background: #ffffff;
+  padding: 34px;
+  background: #fff;
   border: 1px solid #dce3ea;
   border-radius: 22px;
-  padding: 34px;
-  box-shadow: 0 12px 35px rgba(16, 24, 40, 0.07);
-}
-
-/* =========================
-   SECTION
-========================= */
-
-.question-section {
-  width: 100%;
-}
-
-.question-section h2,
-.question-section h3 {
-  color: #172033;
+  box-shadow: 0 12px 35px rgba(16,24,40,.07);
 }
 
 .question-section h2 {
   margin: 0 0 8px;
+  color: #172033;
   font-size: 22px;
   font-weight: 800;
 }
@@ -81,10 +60,6 @@
   font-size: 14px;
   line-height: 1.6;
 }
-
-/* =========================
-   STATUS
-========================= */
 
 .ai-status {
   display: inline-flex;
@@ -99,29 +74,17 @@
   font-weight: 750;
 }
 
-.ai-status::before {
-  content: "";
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #12b76a;
-}
-
-/* =========================
-   QUICK QUESTIONS
-========================= */
-
 .quick-questions {
   margin-bottom: 24px;
 }
 
 .quick-questions h3 {
   margin: 0 0 11px;
+  color: #344054;
   font-size: 13px;
   font-weight: 800;
-  color: #344054;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: .5px;
 }
 
 .quick-question {
@@ -137,7 +100,7 @@
   font-size: 13px;
   font-weight: 650;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all .2s ease;
 }
 
 .quick-question:hover {
@@ -146,10 +109,6 @@
   color: #087653;
   transform: translateY(-1px);
 }
-
-/* =========================
-   QUESTION FORM
-========================= */
 
 .question-form {
   width: 100%;
@@ -179,25 +138,15 @@
   line-height: 1.6;
   resize: vertical;
   outline: none;
-  transition: all 0.2s ease;
-}
-
-.question-form textarea::placeholder,
-.ai-main-card textarea::placeholder {
-  color: #98a2b3;
 }
 
 .question-form textarea:focus,
 .question-input:focus,
 .ai-main-card textarea:focus {
   border-color: #087653;
-  background: #ffffff;
-  box-shadow: 0 0 0 4px rgba(8, 118, 83, 0.1);
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(8,118,83,.1);
 }
-
-/* =========================
-   ACTIONS
-========================= */
 
 .actions-section {
   display: flex;
@@ -211,16 +160,15 @@
 .ai-main-card button[type="submit"] {
   min-height: 46px;
   padding: 0 22px;
-  border: none;
+  border: 0;
   border-radius: 11px;
   background: #087653;
-  color: #ffffff;
+  color: #fff;
   font-family: inherit;
   font-size: 14px;
   font-weight: 800;
   cursor: pointer;
-  box-shadow: 0 5px 14px rgba(8, 118, 83, 0.18);
-  transition: all 0.2s ease;
+  box-shadow: 0 5px 14px rgba(8,118,83,.18);
 }
 
 .ask-button:hover,
@@ -228,27 +176,14 @@
 .ai-main-card button[type="submit"]:hover {
   background: #066548;
   transform: translateY(-1px);
-  box-shadow: 0 8px 18px rgba(8, 118, 83, 0.23);
 }
-
-.ask-button:disabled,
-.ask-ai-button:disabled,
-.ai-main-card button:disabled {
-  opacity: 0.55;
-  cursor: not-allowed;
-  transform: none;
-}
-
-/* =========================
-   CLEAR BUTTON
-========================= */
 
 .clear-button {
   min-height: 46px;
   padding: 0 19px;
   border: 1px solid #d0d5dd;
   border-radius: 11px;
-  background: #ffffff;
+  background: #fff;
   color: #475467;
   font-family: inherit;
   font-size: 14px;
@@ -256,44 +191,19 @@
   cursor: pointer;
 }
 
-.clear-button:hover {
-  background: #f8fafc;
-  border-color: #98a2b3;
-}
-
-/* =========================
-   AI ANSWER
-========================= */
-
 .ai-answer-card {
   margin-top: 28px;
   padding: 23px;
   border: 1px solid #cfe9de;
   border-radius: 16px;
-  background: linear-gradient(135deg, #f3fbf7, #ffffff);
+  background: linear-gradient(135deg,#f3fbf7,#fff);
 }
 
 .ai-answer-card h3 {
-  display: flex;
-  align-items: center;
-  gap: 9px;
   margin: 0 0 13px;
   color: #087653;
   font-size: 16px;
   font-weight: 800;
-}
-
-.ai-answer-card h3::before {
-  content: "?";
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  border-radius: 8px;
-  background: #087653;
-  color: #ffffff;
-  font-size: 14px;
 }
 
 .ai-answer-card p {
@@ -304,10 +214,6 @@
   white-space: pre-wrap;
 }
 
-/* =========================
-   LOADING
-========================= */
-
 .loading-card,
 .ai-loading {
   margin-top: 22px;
@@ -316,13 +222,8 @@
   border-radius: 13px;
   background: #f8fafc;
   color: #667085;
-  font-size: 14px;
   text-align: center;
 }
-
-/* =========================
-   ERROR
-========================= */
 
 .error-card,
 .ai-error {
@@ -332,43 +233,27 @@
   border-radius: 12px;
   background: #fff5f4;
   color: #b42318;
-  font-size: 14px;
-  line-height: 1.5;
 }
-
-/* =========================
-   FEATURE CARDS
-========================= */
 
 .ai-features {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3,1fr);
   gap: 18px;
   margin-top: 24px;
 }
 
 .ai-feature-card {
-  position: relative;
   padding: 24px;
   border: 1px solid #dce3ea;
   border-radius: 16px;
-  background: #ffffff;
-  transition: all 0.2s ease;
+  background: #fff;
+  transition: all .2s ease;
 }
 
 .ai-feature-card:hover {
   transform: translateY(-3px);
   border-color: #b8dacc;
-  box-shadow: 0 9px 24px rgba(16, 24, 40, 0.07);
-}
-
-.ai-feature-card .feature-number {
-  display: inline-flex;
-  margin-bottom: 16px;
-  color: #087653;
-  font-size: 12px;
-  font-weight: 850;
-  letter-spacing: 1px;
+  box-shadow: 0 9px 24px rgba(16,24,40,.07);
 }
 
 .ai-feature-card h3 {
@@ -385,34 +270,9 @@
   line-height: 1.65;
 }
 
-/* =========================
-   GENERAL OVERRIDES
-========================= */
-
-.ai-page *,
-.ai-page *::before,
-.ai-page *::after {
-  box-sizing: border-box;
-}
-
-.ai-page button {
-  font-family: inherit;
-}
-
-.ai-page button:focus-visible,
-.ai-page textarea:focus-visible {
-  outline: 3px solid rgba(8, 118, 83, 0.16);
-  outline-offset: 2px;
-}
-
-/* =========================
-   RESPONSIVE
-========================= */
-
 @media (max-width: 900px) {
   .ai-page {
     width: 94%;
-    padding: 28px 0 45px;
   }
 
   .ai-main-card {
@@ -428,15 +288,6 @@
   .ai-page {
     width: 92%;
     padding: 20px 0 35px;
-  }
-
-  .ai-hero h1 {
-    font-size: 34px;
-    letter-spacing: -1px;
-  }
-
-  .ai-hero p {
-    font-size: 14px;
   }
 
   .ai-main-card {
@@ -460,9 +311,5 @@
     width: 100%;
     justify-content: flex-start;
     border-radius: 11px;
-  }
-
-  .ai-answer-card {
-    padding: 18px;
   }
 }
