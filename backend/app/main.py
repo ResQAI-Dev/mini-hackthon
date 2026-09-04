@@ -4,6 +4,7 @@ from app.database.connection import Base, engine
 from app.models import Prediction
 from app.routes.prediction import router as prediction_router
 from app.routes.ai import router as ai_router
+from app.routes.weather import router as weather_router
 
 Base.metadata.create_all(bind=engine)
 
@@ -28,10 +29,13 @@ app.add_middleware(
 
 app.include_router(prediction_router)
 app.include_router(ai_router)
+app.include_router(weather_router)
+
 
 @app.get("/")
 def root():
     return {"message": "DisasterGuard LK API is running"}
+
 
 @app.get("/health")
 def health():
