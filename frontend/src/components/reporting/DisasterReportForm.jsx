@@ -12,8 +12,8 @@ import { validateDisasterReport } from "../../utils/validation";
 const initialFormData = {
   disaster_type: "",
   location: "",
-  latitude: null,
-  longitude: null,
+  latitude: 7.8731,
+  longitude: 80.7718,
   severity: "",
   description: "",
   affected_people: "",
