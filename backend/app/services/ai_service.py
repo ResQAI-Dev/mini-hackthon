@@ -39,14 +39,14 @@ RISK OVERVIEW
 Write 2 short sentences explaining the estimated risk.
 
 KEY RISK FACTORS
-• Rainfall factor.
-• Water-level factor.
-• One relevant local vulnerability factor.
+- Rainfall factor.
+- Water-level factor.
+- One relevant local vulnerability factor.
 
 RECOMMENDED ACTIONS
-• One practical safety action.
-• One preparedness action.
-• Follow official disaster warnings.
+- One practical safety action.
+- One preparedness action.
+- Follow official disaster warnings.
 
 IMPORTANT:
 - Maximum 120 words.
@@ -60,9 +60,27 @@ IMPORTANT:
 - Do not mention that you are an AI model.
 """
 
-    response = client.models.generate_content(
-        model="gemini-3.7-flash",
-        contents=prompt,
-    )
+    try:
+        response = client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=prompt,
+        )
 
-    return response.text.strip()
+        return response.text.strip()
+
+    except Exception as e:
+        print("Gemini unavailable:", repr(e))
+
+        return f"""RISK OVERVIEW
+The estimated risk level for {district} is {risk_level}, based on the provided rainfall and water-level information.
+This is a prototype assessment and should not be treated as an official warning.
+
+KEY RISK FACTORS
+- Rainfall: {rainfall} mm.
+- Water level: {water_level} m.
+- Estimated risk score: {risk_score}/100.
+
+RECOMMENDED ACTIONS
+- Monitor local weather and environmental conditions.
+- Keep essential emergency items ready.
+- Follow official disaster warnings and instructions."""
