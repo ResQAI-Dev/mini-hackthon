@@ -3,10 +3,10 @@ from typing import List, Optional
 
 
 class AnalyzeRiskRequest(BaseModel):
-    district: str = Field(..., example="Ratnapura")
+    district: str = Field(..., examples=["Ratnapura"])
     condition: str = Field(
         ...,
-        example="Heavy rain for over 6 hours and rising river water level"
+        examples=["Heavy rain for over 6 hours and rising river water level"],
     )
 
 

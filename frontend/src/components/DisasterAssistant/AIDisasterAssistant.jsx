@@ -1,139 +1,155 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { analyzeRisk, askDisasterQuestion } from '../../services/disasterApi';
+import './AIDisasterAssistant.css';
 
 const SRI_LANKA_DISTRICTS = [
-  "Ampara", "Anuradhapura", "Badulla", "Batticaloa", "Colombo", "Galle", 
-  "Gampaha", "Hambantota", "Jaffna", "Kalutara", "Kandy", "Kegalle", 
-  "Kilinochchi", "Kurunegala", "Mannar", "Matale", "Matara", "Monaragala", 
-  "Mullaitivu", "Nuwara Eliya", "Polonnaruwa", "Puttalam", "Ratnapura", 
-  "Trincomalee", "Vavuniya"
+  'Ampara', 'Anuradhapura', 'Badulla', 'Batticaloa', 'Colombo', 'Galle',
+  'Gampaha', 'Hambantota', 'Jaffna', 'Kalutara', 'Kandy', 'Kegalle',
+  'Kilinochchi', 'Kurunegala', 'Mannar', 'Matale', 'Matara', 'Monaragala',
+  'Mullaitivu', 'Nuwara Eliya', 'Polonnaruwa', 'Puttalam', 'Ratnapura',
+  'Trincomalee', 'Vavuniya',
 ];
+
+function riskTone(level) {
+  switch ((level || '').toLowerCase()) {
+    case 'critical':
+      return 'critical';
+    case 'high':
+      return 'high';
+    case 'moderate':
+      return 'moderate';
+    default:
+      return 'low';
+  }
+}
 
 export default function AIDisasterAssistant() {
   const [district, setDistrict] = useState('Ratnapura');
   const [condition, setCondition] = useState('');
   const [riskData, setRiskData] = useState(null);
   const [loadingRisk, setLoadingRisk] = useState(false);
+  const [riskError, setRiskError] = useState('');
 
   const [question, setQuestion] = useState('');
   const [chatHistory, setChatHistory] = useState([]);
   const [loadingChat, setLoadingChat] = useState(false);
 
-    const handleAnalyze = async (e) => {
-        e.preventDefault();
-        if (!condition.trim()) return;
-        setLoadingRisk(true);
-        try {
-        const result = await analyzeRisk(district, condition);
-        setRiskData(result);
-        } catch (err) {
-        alert("Failed to analyze risk conditions. Ensure backend is running.");
-        } finally {
-        setLoadingRisk(false);
-        }
-    };
+  const handleAnalyze = async (e) => {
+    e.preventDefault();
+    if (!condition.trim()) return;
+
+    setLoadingRisk(true);
+    setRiskError('');
+    try {
+      const result = await analyzeRisk(district, condition.trim());
+      setRiskData(result);
+    } catch (err) {
+      setRiskData(null);
+      setRiskError(err.message || 'Failed to analyze risk. Is the backend running?');
+    } finally {
+      setLoadingRisk(false);
+    }
+  };
 
   const handleChat = async (e) => {
     e.preventDefault();
     if (!question.trim()) return;
-    const userMsg = question;
+
+    const userMsg = question.trim();
     setQuestion('');
     setChatHistory((prev) => [...prev, { sender: 'user', text: userMsg }]);
     setLoadingChat(true);
 
     try {
       const res = await askDisasterQuestion(userMsg, district);
-      setChatHistory((prev) => [...prev, { sender: 'ai', text: res.answer }]);
+      setChatHistory((prev) => [
+        ...prev,
+        { sender: 'ai', text: res.answer || 'No guidance returned.' },
+      ]);
     } catch (err) {
-      setChatHistory((prev) => [...prev, { sender: 'ai', text: 'Error connecting to emergency advisor server.' }]);
+      setChatHistory((prev) => [
+        ...prev,
+        {
+          sender: 'ai',
+          text: `Could not reach the emergency advisor: ${err.message}`,
+        },
+      ]);
     } finally {
       setLoadingChat(false);
     }
   };
 
-  const getBadgeColor = (level) => {
-    switch (level?.toLowerCase()) {
-      case 'critical': return 'bg-red-600 text-white';
-      case 'high': return 'bg-orange-500 text-white';
-      case 'moderate': return 'bg-yellow-500 text-black';
-      default: return 'bg-green-600 text-white';
-    }
-  };
-
   return (
-    <div className="max-w-4xl mx-auto p-6 space-y-8 font-sans">
-      <header className="border-b pb-4">
-        <h1 className="text-3xl font-bold text-slate-800">🤖 AI Disaster Assistant</h1>
-        <p className="text-slate-600">Localized risk analysis & emergency guidance engine</p>
+    <div className="da-root">
+      <header className="da-header">
+        <p className="da-brand">ResQAI</p>
+        <h1>AI Disaster Assistant</h1>
+        <p className="da-subtitle">
+          Localized condition analysis, risk explanation, safety steps, and emergency Q&amp;A for Sri Lanka.
+        </p>
       </header>
 
-      {/* Section 1: Condition Analysis & Recommendations */}
-      <section className="bg-white p-6 rounded-xl shadow-md border border-slate-200">
-        <h2 className="text-xl font-semibold mb-4 text-slate-700">1. District Risk Analysis</h2>
-        <form onSubmit={handleAnalyze} className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-              <label className="block text-sm font-medium mb-1">Select District</label>
-              <select 
-                value={district} 
-                onChange={(e) => setDistrict(e.target.value)}
-                className="w-full border rounded-lg p-2 bg-slate-50"
-              >
-                {SRI_LANKA_DISTRICTS.map((d) => (
-                  <option key={d} value={d}>{d}</option>
-                ))}
-              </select>
-            </div>
-            <div className="md:col-span-2">
-              <label className="block text-sm font-medium mb-1">Observed Conditions</label>
-              <input 
-                type="text"
-                placeholder="e.g., Continuous heavy rainfall for 8 hours and water rising near riverbank"
-                value={condition}
-                onChange={(e) => setCondition(e.target.value)}
-                className="w-full border rounded-lg p-2"
-              />
-            </div>
-          </div>
-          <button 
-            type="submit" 
-            disabled={loadingRisk}
-            className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-5 py-2 rounded-lg disabled:opacity-50"
-          >
-            {loadingRisk ? 'Analyzing Threat...' : 'Evaluate Risk'}
+      <section className="da-panel">
+        <h2>1. Conditions analyze</h2>
+        <form onSubmit={handleAnalyze} className="da-form">
+          <label className="da-field">
+            <span>District</span>
+            <select
+              value={district}
+              onChange={(e) => setDistrict(e.target.value)}
+            >
+              {SRI_LANKA_DISTRICTS.map((d) => (
+                <option key={d} value={d}>{d}</option>
+              ))}
+            </select>
+          </label>
+
+          <label className="da-field da-field-wide">
+            <span>Observed conditions</span>
+            <textarea
+              rows={3}
+              placeholder="e.g. Continuous heavy rainfall for 8 hours and water rising near the riverbank"
+              value={condition}
+              onChange={(e) => setCondition(e.target.value)}
+              required
+            />
+          </label>
+
+          <button type="submit" className="da-btn da-btn-primary" disabled={loadingRisk}>
+            {loadingRisk ? 'Analyzing threat…' : 'Evaluate risk'}
           </button>
         </form>
 
+        {riskError && <p className="da-error" role="alert">{riskError}</p>}
+
         {riskData && (
-          <div className="mt-6 p-4 rounded-lg bg-slate-50 border border-slate-200 space-y-4">
-            <div className="flex items-center justify-between">
-              <span className="font-semibold text-lg text-slate-800">Assessed Risk Level:</span>
-              <span className={`px-4 py-1 rounded-full font-bold uppercase text-sm ${getBadgeColor(riskData.risk_level)}`}>
+          <div className="da-result">
+            <div className="da-result-top">
+              <h3>Risk level</h3>
+              <span className={`da-badge da-badge-${riskTone(riskData.risk_level)}`}>
                 {riskData.risk_level}
               </span>
             </div>
 
-            <div>
-              <h3 className="font-semibold text-slate-700">Risk Explanation:</h3>
-              <p className="text-slate-600 text-sm mt-1">{riskData.explanation}</p>
+            <div className="da-block">
+              <h3>Risk explanation</h3>
+              <p>{riskData.explanation}</p>
             </div>
 
-            <div>
-              <h3 className="font-semibold text-slate-700">Recommended Actions:</h3>
-              <ul className="list-disc list-inside text-sm text-slate-600 mt-1 space-y-1">
-                {riskData.recommendations.map((rec, i) => (
+            <div className="da-block">
+              <h3>Safety recommendations</h3>
+              <ul>
+                {(riskData.recommendations || []).map((rec, i) => (
                   <li key={i}>{rec}</li>
                 ))}
               </ul>
             </div>
 
-            <div>
-              <h3 className="font-semibold text-slate-700">Emergency Hotlines:</h3>
-              <div className="flex gap-2 mt-2">
-                {riskData.emergency_contacts.map((contact, i) => (
-                  <span key={i} className="bg-red-100 text-red-800 text-xs px-3 py-1 rounded-md font-medium">
-                    {contact}
-                  </span>
+            <div className="da-block">
+              <h3>Emergency contacts</h3>
+              <div className="da-contacts">
+                {(riskData.emergency_contacts || []).map((contact, i) => (
+                  <span key={i}>{contact}</span>
                 ))}
               </div>
             </div>
@@ -141,39 +157,39 @@ export default function AIDisasterAssistant() {
         )}
       </section>
 
-      {/* Section 2: Conversational Emergency Q&A */}
-      <section className="bg-white p-6 rounded-xl shadow-md border border-slate-200">
-        <h2 className="text-xl font-semibold mb-4 text-slate-700">2. Emergency Guidance Chat</h2>
-        <div className="h-64 overflow-y-auto border rounded-lg p-4 bg-slate-50 mb-4 space-y-3">
+      <section className="da-panel">
+        <h2>2. Disaster-related guidance</h2>
+        <p className="da-hint">
+          Ask safety questions for <strong>{district}</strong> (uses the district selected above).
+        </p>
+
+        <div className="da-chat">
           {chatHistory.length === 0 ? (
-            <p className="text-slate-400 text-sm text-center">Ask any urgent question (e.g., "Where is the nearest shelter standard protocol?")</p>
+            <p className="da-chat-empty">
+              Example: “Where should I go if the river floods tonight?”
+            </p>
           ) : (
             chatHistory.map((msg, i) => (
-              <div key={i} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-                <div className={`max-w-xs md:max-w-md p-3 rounded-lg text-sm ${
-                  msg.sender === 'user' ? 'bg-blue-600 text-white' : 'bg-white border text-slate-800 shadow-sm'
-                }`}>
-                  {msg.text}
-                </div>
+              <div
+                key={i}
+                className={`da-bubble ${msg.sender === 'user' ? 'da-bubble-user' : 'da-bubble-ai'}`}
+              >
+                {msg.text}
               </div>
             ))
           )}
-          {loadingChat && <p className="text-slate-400 text-xs italic">ResQAI assistant is typing...</p>}
+          {loadingChat && <p className="da-typing">ResQAI is preparing guidance…</p>}
         </div>
 
-        <form onSubmit={handleChat} className="flex gap-2">
-          <input 
+        <form onSubmit={handleChat} className="da-chat-form">
+          <input
             type="text"
-            placeholder="Type your disaster query..."
+            placeholder="Type your disaster question…"
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
-            className="flex-grow border rounded-lg p-2 text-sm"
+            required
           />
-          <button 
-            type="submit" 
-            disabled={loadingChat}
-            className="bg-slate-800 hover:bg-slate-900 text-white font-medium px-4 py-2 rounded-lg text-sm disabled:opacity-50"
-          >
+          <button type="submit" className="da-btn da-btn-dark" disabled={loadingChat}>
             Ask AI
           </button>
         </form>
